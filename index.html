@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Building Material & BOQ Estimator (มทอ. 101-64)</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Import Three.js via Importmap -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+</head>
+<body>
+
+    <!-- 1. Canvas สำหรับแสดงผล 3D -->
+    <div id="canvas-container"></div>
+
+    <!-- 2. Taskbar ด้านบน -->
+    <div id="taskbar">
+        <button id="tb-tools" class="task-btn active" onclick="toggleWindow('panel-tools')">🛠️ เครื่องมือ</button>
+        <button id="tb-outliner" class="task-btn active" onclick="toggleWindow('panel-outliner')">📋 รายการโครงสร้าง</button>
+        <button id="tb-price" class="task-btn" onclick="toggleWindow('panel-price')">💰 ตั้งค่าราคาวัสดุ</button>
+        <button id="tb-calc" class="task-btn" onclick="toggleWindow('panel-calc')">📊 สรุปราคา (BOQ)</button>
+    </div>
+
+    <!-- 3. หน้าต่างเครื่องมือ (Tools Panel) -->
+    <div id="panel-tools" class="window-panel">
+        <div id="panel-tools-header" class="window-header">
+            <span class="win-title">🛠️ สร้างชิ้นงาน 3D</span>
+            <div class="win-controls">
+                <button class="win-btn btn-close" onclick="closeWindow('panel-tools')">×</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <h3>เพิ่มโครงสร้างคอนกรีต</h3>
+            <button id="btn-add-wall">🧱 เพิ่มผนังคอนกรีต (Wall)</button>
+            <button id="btn-add-slab">⬛ เพิ่มพื้นคอนกรีต (Slab)</button>
+            <button id="btn-add-column">🏛️ เพิ่มเสาคอนกรีต (Column)</button>
+
+            <!-- Properties Control (แสดงเมื่อเลือกวัตถุ) -->
+            <div id="properties-panel" style="display: none; margin-top: 15px;">
+                <h3>ตำแหน่งวัตถุ (Position)</h3>
+                <h4>ตำแหน่ง X, Y, Z (เมตร)</h4>
+                <div style="display: flex; gap: 5px;">
+                    <input type="number" id="inp-pos-x" step="0.1" placeholder="X">
+                    <input type="number" id="inp-pos-y" step="0.1" placeholder="Y">
+                    <input type="number" id="inp-pos-z" step="0.1" placeholder="Z">
+                </div>
+            </div>
+
+            <button id="btn-calc-all" class="calc-btn" style="margin-top: 20px;">📊 คำนวณราคาทั้งหมด (BOQ)</button>
+        </div>
+    </div>
+
+    <!-- 4. หน้าต่าง Outliner (รายการวัตถุในระบบ) -->
+    <div id="panel-outliner" class="window-panel">
+        <div id="panel-outliner-header" class="window-header">
+            <span class="win-title">📋 โครงสร้างในฉาก</span>
+            <div class="win-controls">
+                <button class="win-btn btn-close" onclick="closeWindow('panel-outliner')">×</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <ul id="object-list"></ul>
+        </div>
+    </div>
+
+    <!-- 5. หน้าต่างตั้งค่าราคาวัสดุ (Price Setting Panel) -->
+    <div id="panel-price" class="window-panel">
+        <div id="panel-price-header" class="window-header">
+            <span class="win-title">💰 ตั้งค่าราคาต่อหน่วย</span>
+            <div class="win-controls">
+                <button class="win-btn btn-close" onclick="closeWindow('panel-price')">×</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <h4>ปูนซีเมนต์ (บาท / ถุง 50กก.)</h4>
+            <input type="number" id="inp-price-cement" value="140">
+            
+            <h4>ทรายหยาบ (บาท / คิว)</h4>
+            <input type="number" id="inp-price-sand" value="550">
+            
+            <h4>หิน 1-2 (บาท / คิว)</h4>
+            <input type="number" id="inp-price-stone" value="600">
+
+            <button id="btn-save-prices" class="action-btn">💾 บันทึกราคา</button>
+        </div>
+    </div>
+
+    <!-- 6. หน้าต่างแสดงผล BOQ (Calc Panel) -->
+    <div id="panel-calc" class="window-panel">
+        <div id="panel-calc-header" class="window-header">
+            <span class="win-title">📊 รายงานถอดแบบและประมาณราคา</span>
+            <div class="win-controls">
+                <button class="win-btn btn-close" onclick="closeWindow('panel-calc')">×</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <div id="calc-result-content">
+                <p style="color: #a393b3; text-align: center;">กดปุ่ม "คำนวณราคาทั้งหมด" เพื่อดูรายงาน BOQ</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script หลัก -->
+    <script type="module" src="script.js"></script>
+</body>
+</html>

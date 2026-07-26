@@ -1,0 +1,151 @@
+/* --- CORE STYLES (Kuromi Theme: Dark & Purple) --- */
+:root {
+    --bg-dark: #121016;
+    --panel-bg: rgba(22, 18, 30, 0.92);
+    --panel-border: #3a2b4c;
+    --accent-purple: #9b59b6;
+    --accent-hover: #8e44ad;
+    --accent-glow: #b15bde;
+    --text-main: #f0e6f5;
+    --text-muted: #a393b3;
+    --danger: #e74c3c;
+    --success: #2ecc71;
+}
+
+body { 
+    margin: 0; 
+    overflow: hidden; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    background: var(--bg-dark); 
+    color: var(--text-main); 
+}
+
+#canvas-container { 
+    width: 100vw; 
+    height: 100vh; 
+    display: block; 
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    z-index: 0; 
+}
+
+/* --- TOP TASKBAR --- */
+#taskbar {
+    position: absolute; top: 0; left: 0; width: 100%; height: 38px;
+    background: #181320; border-bottom: 1px solid var(--panel-border); z-index: 100;
+    display: flex; align-items: center; padding: 0 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+.task-btn {
+    background: transparent; border: 1px solid var(--panel-border); color: var(--text-muted); 
+    padding: 5px 12px; margin-right: 8px; font-size: 12px; cursor: pointer; border-radius: 4px;
+    transition: all 0.2s;
+}
+.task-btn:hover { background: #281e36; color: var(--text-main); }
+.task-btn.active { background: var(--accent-purple); border-color: var(--accent-glow); color: white; }
+
+/* --- DRAGGABLE WINDOWS --- */
+.window-panel {
+    position: absolute; 
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border); 
+    border-radius: 8px; 
+    box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+    backdrop-filter: blur(8px); 
+    z-index: 10;
+    display: flex; flex-direction: column;
+    min-width: 220px;
+    overflow: hidden; 
+}
+
+.window-header {
+    padding: 10px 12px; background: #231833; 
+    border-bottom: 1px solid var(--panel-border); cursor: move;
+    display: flex; justify-content: space-between; align-items: center;
+    user-select: none;
+}
+.win-title { font-weight: bold; font-size: 13px; color: var(--text-main); display:flex; gap:6px; align-items:center;}
+
+.win-controls { display: flex; gap: 6px; }
+.win-btn { 
+    width: 18px; height: 18px; border-radius: 50%; border: none; cursor: pointer; 
+    font-size: 10px; display: flex; align-items: center; justify-content: center; color: white;
+}
+.btn-min { background: #f39c12; }
+.btn-close { background: var(--danger); }
+
+.window-content {
+    padding: 12px; overflow-y: auto; flex-grow: 1;
+}
+
+/* Default Positions */
+#panel-tools { top: 50px; left: 20px; width: 280px; }
+#panel-outliner { top: 50px; right: 20px; width: 260px; }
+#panel-calc { top: 50px; left: 320px; width: 420px; display: none; border-color: var(--accent-purple); }
+#panel-price { top: 50px; left: 320px; width: 320px; display: none; border-color: #8e44ad; }
+
+/* --- UI ELEMENTS --- */
+h3 { margin: 10px 0 6px 0; font-size: 14px; color: var(--accent-glow); border-bottom: 1px solid var(--panel-border); padding-bottom: 4px; }
+h4 { margin: 6px 0; font-size: 12px; color: var(--text-muted); }
+
+button {
+    width: 100%; margin-bottom: 8px; padding: 8px 12px; font-size: 12px; font-weight: 600;
+    background: #2a1f3d; border: 1px solid var(--panel-border); color: var(--text-main); cursor: pointer; border-radius: 6px;
+    transition: all 0.2s;
+}
+button:hover { background: var(--accent-purple); color: white; }
+button.active { background: var(--accent-purple); border-color: var(--accent-glow); }
+button.action-btn { background: #6c3483; border-color: var(--accent-glow); }
+button.calc-btn { background: #27ae60; border-color: #2ecc71; color: white; font-weight: bold; }
+button.calc-btn:hover { background: #219653; }
+
+select, input[type="text"], input[type="number"] {
+    width: 100%; padding: 7px; background: #181224; border: 1px solid var(--panel-border); color: var(--text-main); border-radius: 5px; margin-bottom: 8px; box-sizing: border-box;
+    font-size: 12px;
+}
+select:focus, input:focus { outline: none; border-color: var(--accent-purple); }
+
+.toggle-container {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 8px; padding: 6px 8px; background: #181224; border-radius: 5px; border: 1px solid var(--panel-border);
+}
+.toggle-label { font-size: 12px; color: var(--text-muted); }
+
+/* LIST STYLES */
+#object-list { 
+    list-style: none; padding: 0; margin: 0; background: #140f1f; border-radius: 6px; border: 1px solid var(--panel-border);
+}
+#object-list li {
+    padding: 8px; cursor: pointer; border-bottom: 1px solid #231833; font-size: 12px;
+    display: flex; justify-content: space-between; align-items: center;
+}
+#object-list li:hover { background: #251a38; }
+#object-list li.selected { background: var(--accent-purple); color: white; }
+
+.list-icon-group { display: flex; gap: 6px; }
+.icon-btn { cursor: pointer; opacity: 0.8; padding: 2px 4px; border-radius: 3px; font-size: 13px; }
+.icon-btn:hover { opacity: 1; background: rgba(255,255,255,0.15); }
+
+/* --- 3D LABELS --- */
+.dimension-input {
+    width: 45px !important; margin: 0 !important; padding: 2px 0 !important;
+    background: rgba(18, 16, 22, 0.9) !important; border: 1.5px solid var(--accent-purple) !important;
+    color: #fff !important; border-radius: 4px; text-align: center;
+    font-size: 11px; font-weight: bold; pointer-events: auto; outline: none;
+}
+.dimension-input:focus { background: #fff !important; color: #000 !important; }
+
+/* Table */
+table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 6px; margin-bottom: 12px; }
+th, td { border: 1px solid var(--panel-border); padding: 6px; text-align: left; }
+th { background: #231833; color: var(--accent-glow); }
+
+/* PRINT STYLES FOR BOQ REPORT */
+@media print {
+    body * { visibility: hidden; }
+    #panel-calc, #panel-calc * { visibility: visible; }
+    #panel-calc { position: absolute; left: 0; top: 0; width: 100%; background: white !important; color: black !important; border: none !important; }
+    .window-header, .win-controls, button { display: none !important; }
+    th { background: #eee !important; color: black !important; }
+    td, th { border: 1px solid #000 !important; }
+}
